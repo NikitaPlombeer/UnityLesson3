@@ -13,7 +13,7 @@ public class PlaneController : MonoBehaviour
     private Rigidbody _rigidBody;
     private Vector3 _initialPosition;
     private Quaternion _initialRotation;
-
+    
     void Start()
     {
         _rigidBody = GetComponent<Rigidbody>();
@@ -22,9 +22,8 @@ public class PlaneController : MonoBehaviour
         _initialRotation = transform.rotation;
     }
 
-        
-    // Update is called once per frame
-    void Update()
+
+    void FixedUpdate()
     {
         if (!GameManager.instance.IsWasted)
         {
@@ -60,8 +59,7 @@ public class PlaneController : MonoBehaviour
         var inverseRotation = new Vector3(GetInverseRotation(eulerAngles.x), 0f, GetInverseRotation(eulerAngles.z));
         if (inverseRotation.x == 0f && inverseRotation.z == 0f)
         {
-            var av = _rigidBody.angularVelocity;
-            _rigidBody.angularVelocity = new Vector3(0f, av.y, 0f);
+            _rigidBody.angularVelocity = new Vector3(0f, 0f, 0f);
         }
         else
         {
@@ -133,6 +131,6 @@ public class PlaneController : MonoBehaviour
     {
         _rigidBody.velocity = transform.TransformVector(Vector3.up);
         transform.rotation = Quaternion.LookRotation(Vector3.up);
-        _rigidBody.angularVelocity = transform.TransformDirection(Vector3.forward * (float) Math.PI * 2);
+        _rigidBody.angularVelocity = transform.TransformVector(Vector3.forward * (float) Math.PI * 2);
     }
 }
